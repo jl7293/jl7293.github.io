@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junyan Liu — Robotics &amp; Mechatronics</title>
+<meta name="description" content="Junyan Liu, MS student in Mechanical Engineering (Robotics and Control) at Columbia University.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="#top">J.L.</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="nav-links" class="nav-links">
+      <a href="#education">Education</a>
+      <a href="#research">Research</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section id="top" class="hero">
+    <div class="hero-grid">
+      <div class="portrait">
+        <img src="assets/photo.jpg" alt="Junyan Liu">
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-name">Junyan Liu</h1>
+        <p class="hero-role">Mechanical Engineering — Robotics and Control</p>
+        <p class="hero-current">MS student at Columbia University</p>
+        <div class="hero-bio">
+          <p>
+            I am an MS student in Mechanical
+            Engineering (Robotics and Control Track) at Columbia University.
+            My background is in mechatronic engineering — a dual degree
+            between Beijing Jiaotong University and the University of
+            Wollongong, where coursework in embedded systems, finite element
+            analysis, and control theory first drew me toward robotics.
+          </p>
+          <p>
+            I currently conduct research in Prof.
+            Yunzhu Li's RoboPIL Lab, developing a lightweight world-action
+            model for robotic manipulation, and in Prof. Hod Lipson's
+            Creative Machines Lab, working on the control systems and
+            simulation infrastructure for self-reproducing modular robots —
+            research currently under review at the IROS 2026 Workshop. I
+            also serve as a Teaching Assistant for Mechatronics &amp;
+            Embedded Micro at Columbia, and have built robots including a
+            quadruped platform ("Pack-Pack") and a computer-vision tracking
+            robot that won Best Use of Computer Vision at the MakeCU 2025
+            Hackathon.
+          </p>
+        </div>
+        <div class="hero-links">
+          <a href="mailto:jl7293@columbia.edu">Email</a>
+          <a href="https://github.com/jl7293" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/junyanliu7293/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="assets/cv.pdf" target="_blank" rel="noopener">Download CV</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="section">
+    <div class="section-head">
+      <h2>Education</h2>
+    </div>
+    <ul class="timeline">
+      <li>
+        <div class="timeline-date">2025–Present</div>
+        <div class="timeline-body">
+          <h3>MS in Mechanical Engineering, Robotics and Control Track</h3>
+          <p class="timeline-org">Columbia University in the City of New York, New York, US</p>
+          <p>Coursework: Robotic Studio (Advanced), Robot Learning, Model Predictive Control, Introduction to Robotics.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">2024–2025</div>
+        <div class="timeline-body">
+          <h3>BA in Mechatronic Engineering (Honours)</h3>
+          <p class="timeline-org">University of Wollongong, Wollongong, AU</p>
+          <p>Coursework: Applied Topics in Mechatronics, Reliability Engineering, Manufacturing Engineering Principles.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">2021–2025</div>
+        <div class="timeline-body">
+          <h3>BA in Mechatronic Engineering</h3>
+          <p class="timeline-org">Beijing Jiaotong University, Beijing, CN</p>
+          <p>Coursework: Electronics, Programming for Engineers, Embedded System and Applications.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="honors" class="section">
+    <div class="section-head">
+      <h2>Honors &amp; Awards</h2>
+    </div>
+    <ul class="interest-list">
+      <li>Winner, Best Use of Computer Vision — MakeCU 2025 Hackathon (Columbia Robotics Club), Nov 2025</li>
+    </ul>
+  </section>
+
+  <section id="research" class="section">
+    <div class="section-head">
+      <h2>Research</h2>
+    </div>
+    <p class="research-intro">
+      My interests sit at the intersection of mechanical design, control, and
+      simulation — currently focused on learning-based control for
+      manipulation and locomotion, and on the mechanics and control systems
+      that let physical robots build and reconfigure themselves. Below is my
+      current work at Columbia; earlier research is in my CV.
+    </p>
+    <ul class="timeline">
+      <li>
+        <div class="timeline-date">Jun 2026–Present</div>
+        <div class="timeline-body">
+          <h3>World Action Model for Robotic Manipulation</h3>
+          <p class="timeline-org">RoboPIL Lab, Prof. Yunzhu Li (mentored by PhD student Kaifeng Zhang)</p>
+          <div class="timeline-media"><img src="assets/wam.png" alt="World Action Model project"></div>
+          <ul class="bullets">
+            <li>Explored training-free control baselines for manipulation, including MPPI-based grasping with a Franka arm in the Newton simulator and MPPI-based atomic-task planning in RoboCasa, before converging on a learning-based direction.</li>
+            <li>Currently developing a lightweight World Action Model (WAM) by extending the video-generation world model from Interactive World Simulator with a trainable action head, aiming to produce a baseline policy for manipulation evaluation.</li>
+            <li>Iterating on the action-head architecture and training pipeline (in progress).</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Feb 2026–Present</div>
+        <div class="timeline-body">
+          <h3>Replicate Project: Self-Reproducing Modular Robots</h3>
+          <p class="timeline-org">Creative Machines Lab, Prof. Hod Lipson</p>
+          <div class="timeline-media"><img src="assets/replicate.png" alt="Self-reproducing modular robots project"></div>
+          <ul class="bullets">
+            <li>Co-developed the teleoperated control system enabling physical module collection and docking: a browser-based control terminal issues discrete motion commands over a serial link to a host microcontroller, which wirelessly broadcasts commands to modules and receives periodic heartbeat status for real-time operator guidance.</li>
+            <li>Programmed microcontroller (Arduino Nano ESP32) firmware implementing discrete motion primitives and a pre-programmed separation sequence, enabling a composite parent-offspring structure to reliably split into two independent, fully functional robots.</li>
+            <li>Engineered a low-level magnetic physics engine to overcome MuJoCo's lack of native complex magnetic support, formulating an O(N²) magnetic calculation model with non-linear distance attenuation and velocity damping that validated the docking-force parameters later adopted for the physical magnetic docking interface.</li>
+            <li>Migrated the simulation framework to MuJoCo/MJX and built a highly optimized C dynamic library bypassing the Python interpreter, achieving a 2.34x speedup per simulation step for large-scale random search and genetic algorithm evaluations.</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <p class="section-note">Earlier research (2023–2025) on magnetic simulation and reinforcement learning is in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
+  </section>
+
+  <section id="experience" class="section">
+    <div class="section-head">
+      <h2>Teaching Experience</h2>
+    </div>
+    <ul class="timeline">
+      <li>
+        <div class="timeline-date">2026–Present</div>
+        <div class="timeline-body">
+          <h3>Teaching Assistant — MECE4058E: Mechatronics &amp; Embedded Micro</h3>
+          <p class="timeline-org">Columbia University (Instructor: Enrico Zordan)</p>
+          <ul class="bullets">
+            <li>Help students complete lab exercises in embedded microcontroller programming (Assembly/C) and mechatronic systems (solenoids, stepper/DC motors, thermal systems, magnetic levitation), and grade lab results.</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <p class="section-note">Earlier internship experience (2024–2025) is in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="section-head">
+      <h2>Selected projects</h2>
+    </div>
+    <ul class="timeline">
+      <li>
+        <div class="timeline-date">Sep–Dec 2026</div>
+        <div class="timeline-body">
+          <h3>Quadruped Robot "Pack-Pack" — Robotic Studio</h3>
+          <p class="timeline-org">Columbia University</p>
+          <div class="timeline-media">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/U7pcNMoIfwk?si=V1PAWZDfMzL-CAm7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <ul class="bullets">
+            <li>Designed and built a custom quadruped robot from concept sketches to physical deployment, covering mechanical design, simulation, and control end-to-end.</li>
+            <li>Engineered the mechanical structure in SolidWorks and assembled the physical prototype with a Raspberry Pi core controller and 8 servo motors (2 DOF per leg).</li>
+            <li>Built a high-fidelity MuJoCo physics simulation to design, test, and evaluate locomotion strategies, implementing preset gaits, Random Search, Hill Climbing, and reinforcement learning.</li>
+            <li>Achieved sim-to-real transfer of heuristic search algorithms, deploying locomotion policies onto physical hardware for a stable real-world walking speed of 32.33 cm/s.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Nov 2025</div>
+        <div class="timeline-body">
+          <h3>Google It: Computer-Vision Tracking Robot (MakeCU 2025 Hackathon)</h3>
+          <p class="timeline-org">4-person team, 24-hour hackathon</p>
+          <div class="timeline-media">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/vSIey4-xD3o?si=7DMo9X7D1ZcZDnYi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <ul class="bullets">
+            <li>Built an autonomous mobile robot, pivoting from a two-wheel self-balancing design to a three-wheel, camera-guided tracking robot after balance tuning proved infeasible in time.</li>
+            <li>Implemented real-time ArUco marker detection and tracking on a Raspberry Pi with OpenCV, computing steering corrections from the marker's pixel offset to drive bus-servo-actuated wheels.</li>
+            <li>Integrated ultrasonic obstacle avoidance and diagnosed hardware failures under time pressure — burned-out motors, slipping wheels, insufficient battery current.</li>
+            <li>Won Best Use of Computer Vision at the hackathon.</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <p class="section-note">Earlier projects (2021–2024), including a surgical planning system and a smart car challenge, are in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
+  </section>
+
+  <section id="publications" class="section">
+    <div class="section-head">
+      <h2>Publications</h2>
+    </div>
+    <ul class="pub-list">
+      <li>
+        <p class="pub-title">One Module Design, Two Morphologies: Toward Self-Reproducing Modular Robots</p>
+        <p class="pub-meta">S. Zhang*, <strong>J. Liu*</strong>, W. He*, H. Lipson. Submitted to IROS 2026 Workshop, 2026 (under review). *Equal contribution.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="skills" class="section">
+    <div class="section-head">
+      <h2>Skills</h2>
+    </div>
+    <ul class="skill-list">
+      <li><span class="skill-label">Programming &amp; embedded systems:</span> C/C++, Python, MATLAB, Arduino (ESP32), STM32</li>
+      <li><span class="skill-label">Robotics, simulation &amp; ML:</span> MuJoCo/MJX, Deep Learning (U-Net)</li>
+      <li><span class="skill-label">Design &amp; analysis:</span> SolidWorks, AutoCAD, Inventor, Photoshop, ANSYS Workbench, ANSYS Maxwell</li>
+      <li><span class="skill-label">Tools &amp; OS:</span> Linux/Ubuntu, Git</li>
+    </ul>
+  </section>
+
+  <section id="contact" class="section contact">
+    <div class="section-head">
+      <h2>Contact</h2>
+    </div>
+    <p>
+      I'm happy to talk about my research, share my CV, or answer any
+      questions. The fastest way to reach me is email.
+    </p>
+    <a class="contact-email" href="mailto:jl7293@columbia.edu">jl7293@columbia.edu</a>
+    <div class="hero-links">
+      <a href="https://github.com/jl7293" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/junyanliu7293/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <span id="year">2026</span> Junyan Liu. Built with plain HTML and CSS.</p>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* Page-specific additions on top of ../assets/style.css — same tokens, new components for a paper/project page layout. */
+
+.back-link {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.paper-hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 64px var(--gutter) 48px;
+  text-align: center;
+}
+.paper-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.25;
+}
+.paper-authors {
+  margin-top: 20px;
+  font-size: 1.05rem;
+}
+.paper-authors strong { font-weight: 600; }
+.paper-affiliations {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+.paper-links {
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 32px;
+  margin-top: 24px;
+}
+.process-step {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.process-step .step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 0.88rem;
+}
+.process-step h4 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin: 4px 0 4px;
+}
+.process-step p {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.figure-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 20px 0 8px;
+}
+.figure-row .timeline-media { margin-bottom: 8px; }
+
+.figure-caption {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: 8px;
+}
+.sequence-caption { margin-top: 4px; margin-bottom: 20px; }
+
+.stage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  margin: 20px 0 4px;
+}
+.stage-item .timeline-media {
+  aspect-ratio: 4 / 3;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+}
+.stage-item p {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 0;
+}
+
+.evidence-note {
+  margin-top: 18px;
+  padding: 14px 18px;
+  border-left: 2px solid var(--line-strong);
+  background: var(--paper-alt);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+.evidence-note strong { color: var(--ink); }
+
+.resource-list li {
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+.resource-list li:first-child { border-top: none; padding-top: 0; }
+.resource-list h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.resource-list p {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.credit-note {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .process-grid { grid-template-columns: 1fr; }
+  .figure-row { grid-template-columns: 1fr; }
+}

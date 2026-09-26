@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotic Budding — Junyan Liu</title>
+<meta name="description" content="Robotic Budding: From Homogeneous Cells to Diverse Morphologies in Physical Self-Reproduction — project page, Creative Machines Lab, Columbia University.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="../index.html">J.L.</a>
+    <nav class="nav-links">
+      <a href="../index.html#research" class="back-link">← Back to site</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="paper-hero">
+    <h1 class="paper-title">Robotic Budding: From Homogeneous Cells to Diverse Morphologies in Physical Self-Reproduction</h1>
+    <p class="paper-authors">
+      Siyuan Zhang<sup>1,2</sup>, <strong>Junyan Liu</strong><sup>1</sup>, Wanglin He<sup>1</sup>, Hod Lipson<sup>1,†</sup>
+    </p>
+    <p class="paper-affiliations">
+      <sup>1</sup>Creative Machines Lab, Columbia University &nbsp; &nbsp; <sup>2</sup>Department of Robotics, University of Michigan, Ann Arbor
+    </p>
+    <div class="hero-links paper-links">
+      <a href="../assets/Robotic_Budding__From_Homogeneous_Cells_to_Diverse_Morphologies_in_Physical_Self_Reproduction.pdf" target="_blank" rel="noopener">Paper</a>
+      <a href="#poster">Poster</a>
+      <a href="#seal-demonstration">Video</a>
+      <a href="https://modular-robot-workshop.github.io/iros2026-modular-robot-workshop-site/" target="_blank" rel="noopener">Workshop I</a>
+      <a href="https://www.lisglab.com/iros26workshop" target="_blank" rel="noopener">Workshop II</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Abstract</h2></div>
+    <p>Physical self-reproduction requires a robot to gather matter, assemble it into a functional body, and separate the resulting offspring without sacrificing its own structure. This work introduces a homogeneous modular platform that demonstrates a budding-style reproduction process across two distinct three-dimensional morphologies. Each diamond-shaped module combines two actuated joints, onboard computation and power, and reversible magnetic docking interfaces.</p>
+    <p>A teleoperated parent robot collects scattered modules into a planar composite, folds the acquired modules into a target body, and mechanically separates from a structurally equivalent offspring. The same module design supports a three-module trilobite and a five-module seal, showing that one robotic cell can realize different body plans through module count and connection topology. The experiments establish the mechanical feasibility of collection, assembly, folding, separation, and independent locomotion, while leaving autonomous navigation, closed-loop docking, and recursive reproduction for future work.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Research Question and Contribution</h2></div>
+    <p>Physical self-reproduction poses a stricter challenge than reconfiguration because a robot must create another functional body while preserving the parent. This project asks whether one homogeneous robotic cell can support distinct body plans and enable a parent to construct an offspring from loose modules in its environment.</p>
+    <p>The system addresses this question through robotic budding. The parent retains all of its original modules, while the modules collected from the environment form the offspring. A shared module design is evaluated in a three-module trilobite and a five-module seal, allowing morphology to vary through module count and connection topology rather than hardware redesign.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Robotic Budding Framework</h2></div>
+    <p>Unlike robotic mitosis, in which an existing body divides its own hardware, robotic budding preserves the parent and builds the offspring entirely from modules gathered from the environment. A parent with <em>n</em> modules sequentially collects <em>n</em> loose modules, forming a temporary planar assembly of <em>2n</em> modules. The acquired half then folds into a three-dimensional body and separates from the parent.</p>
+    <div class="process-grid">
+      <div class="process-step"><span class="step-num">1</span><h4>Collect</h4><p>The parent approaches one loose module at a time.</p></div>
+      <div class="process-step"><span class="step-num">2</span><h4>Assemble</h4><p>Magnetic docking grows a planar composite.</p></div>
+      <div class="process-step"><span class="step-num">3</span><h4>Fold</h4><p>Joint motion forms the target three-dimensional body.</p></div>
+      <div class="process-step"><span class="step-num">4</span><h4>Separate</h4><p>The offspring detaches while the parent remains intact.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>System Design</h2></div>
+    <h3>Homogeneous Robotic Cell</h3>
+    <p>Each module consists of two triangular segments connected by two revolute joints. Two 22 kgf·cm servo actuators provide the range of motion required to transform a planar assembly into a three-dimensional morphology. An Arduino Nano ESP32 coordinates actuation and wireless communication, while a 7.4 V Li-Po battery supplies onboard power. Five N42 neodymium magnets at each triangular end create reversible, direction-independent docking interfaces.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/module-architecture.webp" alt="Internal architecture of the homogeneous robotic module"></div>
+    <p class="figure-caption"><strong>Figure 1.</strong> Mechanical and electronic architecture of one homogeneous robotic cell.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/gear-drive-closeup.webp" alt="Meshing gear transmission between the two servo-driven module segments"></div>
+    <p class="figure-caption"><strong>Figure 2.</strong> Meshing gear transmission between the two servo-driven module segments.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/folded-module.webp" alt="A single module folded 90 degrees between its triangular segments"></div>
+    <p class="figure-caption"><strong>Figure 3.</strong> A single module folded 90 degrees between its triangular segments.</p>
+
+    <h3>One Module, Two Morphologies</h3>
+    <p>The same robotic cell forms two target bodies without changing its mechanical, electrical, or docking design. The trilobite uses three modules, while the seal uses five. Their different body plans arise from module count, connection topology, and joint configuration.</p>
+    <div class="figure-row">
+      <div>
+        <div class="timeline-media"><img src="images/robotic-budding/trilobite.webp" alt="Three-module trilobite morphology"></div>
+        <p class="figure-caption"><strong>Figure 4A.</strong> Three-module trilobite morphology.</p>
+      </div>
+      <div>
+        <div class="timeline-media"><img src="images/robotic-budding/seal.webp" alt="Five-module seal morphology"></div>
+        <p class="figure-caption"><strong>Figure 4B.</strong> Five-module seal morphology.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Teleoperated Collection and Assembly</h2></div>
+    <h3>Control Architecture</h3>
+    <p>The current experiments use direct human teleoperation. A browser interface sends forward, left, and right commands to a serial host, which broadcasts them wirelessly to the modules. Periodic heartbeat messages travel in the opposite direction. Docking is confirmed visually rather than through contact, current, or force feedback.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/control-architecture.webp" alt="Browser-based teleoperation, serial host, wireless broadcast, heartbeat feedback, and robotic modules"></div>
+    <p class="figure-caption"><strong>Figure 5.</strong> Browser-based teleoperation, serial host, wireless broadcast, heartbeat feedback, and robotic modules.</p>
+
+    <h3>Locomotion Primitives</h3>
+    <p>Forward, left-forward, and right-forward motion primitives allow the parent to approach each loose module before magnetic docking. The same commands also verify that a separated offspring can move independently after the budding sequence.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/seal-locomotion-sequence.webp" alt="Complete forward, left-forward, and right-forward locomotion cycles of the five-module seal"></div>
+    <p class="figure-caption"><strong>Figure 6.</strong> Complete forward, left-forward, and right-forward locomotion cycles of the five-module seal.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Preliminary Results</h2></div>
+    <p>The experiments applied the same four-stage budding sequence at two module counts. The evidence is organized from the compact three-module topology to the larger five-module morphology. Together, the demonstrations evaluated whether one module design could support end-to-end collection, folding, and separation across distinct body plans.</p>
+
+    <h3>Three-Module Trilobite</h3>
+    <p>The same module hardware and budding workflow reproduced a compact three-module trilobite. This second body plan shows that the reproduction process is not restricted to one module count or connection topology.</p>
+    <div class="stage-grid">
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-1.webp" alt="Trilobite stage I: initial state"></div><p>Initial state</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-2.webp" alt="Trilobite stage II: first module"></div><p>First module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-3.webp" alt="Trilobite stage III: second module"></div><p>Second module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-4.webp" alt="Trilobite stage IV: planar composite"></div><p>Planar composite</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-5.webp" alt="Trilobite stage V: offspring folding"></div><p>Offspring folding</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/trilobite-stage-6.webp" alt="Trilobite stage VI: separation"></div><p>Separation</p></div>
+    </div>
+    <p class="figure-caption sequence-caption"><strong>Figure 7.</strong> Six stages of three-module trilobite reproduction, from the initial parent and loose modules to offspring separation.</p>
+    <div class="evidence-note"><strong>Experimental scope.</strong> One successful end-to-end trilobite demonstration is presented. Recursive reproduction by either offspring has not yet been tested.</div>
+
+    <h3 id="seal-demonstration">Five-Module Seal</h3>
+    <p>The parent seal collected five scattered modules, producing a ten-module planar composite. The acquired half then folded and separated as a second five-module seal. The video documents direct human teleoperation of the parent while it navigated among the loose modules.</p>
+    <div class="timeline-media"><video src="images/robotic-budding/five-module-seal-teleoperation.mp4" poster="images/robotic-budding/five-module-seal-video-poster.webp" controls muted playsinline></video></div>
+    <p class="figure-caption"><strong>Video 1.</strong> Teleoperated five-module seal robot collecting loose modules.</p>
+    <div class="stage-grid">
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-1.webp" alt="Seal stage I: initial state"></div><p>Initial state</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-2.webp" alt="Seal stage II: first module"></div><p>First module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-3.webp" alt="Seal stage III: second module"></div><p>Second module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-4.webp" alt="Seal stage IV: third module"></div><p>Third module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-5.webp" alt="Seal stage V: fourth module"></div><p>Fourth module</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-6.webp" alt="Seal stage VI: planar composite"></div><p>Planar composite</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-7.webp" alt="Seal stage VII: offspring folding"></div><p>Offspring folding</p></div>
+      <div class="stage-item"><div class="timeline-media"><img src="images/robotic-budding/seal-stage-8.webp" alt="Seal stage VIII: separation"></div><p>Separation</p></div>
+    </div>
+    <p class="figure-caption sequence-caption"><strong>Figure 8.</strong> Eight stages of five-module seal reproduction, including sequential collection, planar assembly, folding, and separation.</p>
+    <div class="evidence-note"><strong>Experimental scope.</strong> One successful end-to-end seal demonstration is presented. The current material does not report a statistically characterized success rate.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Discussion and Future Work</h2></div>
+    <h3>What the Demonstrations Establish</h3>
+    <p>Within the tested, human-directed setting, the system completed collection, planar assembly, folding, separation, and post-separation locomotion for two target morphologies. These results support the mechanical feasibility of robotic budding with one homogeneous module design. They do not yet establish autonomous operation, repeated-trial reliability, or multigenerational reproduction.</p>
+    <h3>Current Limitations</h3>
+    <p>Human-selected commands and visual confirmation remain part of the control loop, so the present evidence cannot be generalized to autonomous execution. Each morphology is represented by one successful end-to-end demonstration, leaving success rates and failure modes unquantified. Only first-generation offspring were tested, so recursive reproduction remains outside the current evidence.</p>
+    <h3>Next Experiments</h3>
+    <p>Next experiments should replace visual teleoperation with vision-based navigation and physical docking feedback, then measure collection and separation success across repeated trials. A further test should require an offspring to collect a new module set and produce the next generation. This experiment would determine whether structural equivalence also supports recursive reproductive capability.</p>
+  </section>
+
+  <section id="poster" class="section">
+    <div class="section-head"><h2>Poster</h2></div>
+    <p>The conference poster is taken from the first page of the poster PDF.</p>
+    <div class="timeline-media"><img src="images/robotic-budding/poster-overview.webp" alt="First page of the Robotic Budding conference poster"></div>
+    <p class="figure-caption"><strong>Poster.</strong> System formulation, module design, control, locomotion, and both budding demonstrations.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Resources</h2></div>
+    <ul class="resource-list">
+      <li>
+        <h3>Extended Abstract</h3>
+        <p><em>One Module Design, Two Morphologies: Toward Self-Reproducing Modular Robots</em></p>
+        <a href="../assets/Robotic_Budding__From_Homogeneous_Cells_to_Diverse_Morphologies_in_Physical_Self_Reproduction.pdf" target="_blank" rel="noopener">Open paper PDF</a>
+      </li>
+      <li>
+        <h3>Conference Poster</h3>
+        <p><em>Robotic Budding: From Homogeneous Cells to Diverse Morphologies in Physical Self-Reproduction</em></p>
+        <a href="../assets/robotic-budding-poster.pdf" target="_blank" rel="noopener">Open poster PDF</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section contact">
+    <div class="section-head"><h2>About this project</h2></div>
+    <p class="credit-note">Developed at the Creative Machines Lab, Columbia University, with Siyuan Zhang, Wanglin He, and Prof. Hod Lipson. See the <a href="../index.html#research">Replicate entry</a> on the main site for context alongside my other research.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <span id="year">2026</span> Junyan Liu and co-authors.</p>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

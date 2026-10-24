@@ -59,8 +59,8 @@
           </p>
           <p>
             I currently conduct research in Prof.
-            Yunzhu Li's RoboPIL Lab, developing a lightweight world-action
-            model for robotic manipulation, and in Prof. Hod Lipson's
+            Yunzhu Li's RoboPIL Lab, developing World Action Models for
+            robotic manipulation, and in Prof. Hod Lipson's
             Creative Machines Lab, working on the control systems and
             simulation infrastructure for self-reproducing modular robots —
             research currently under review at the IROS 2026 Workshop. I
@@ -141,9 +141,10 @@
           <p class="timeline-org">RoboPIL Lab, Prof. Yunzhu Li (mentored by PhD student Kaifeng Zhang)</p>
           <div class="timeline-media"><img src="assets/wam.png" alt="World Action Model project"></div>
           <ul class="bullets">
-            <li>Explored training-free control baselines for manipulation, including MPPI-based grasping with a Franka arm in the Newton simulator and MPPI-based atomic-task planning in RoboCasa, before converging on a learning-based direction.</li>
-            <li>Currently developing a lightweight World Action Model (WAM) by extending the video-generation world model from Interactive World Simulator with a trainable action head, aiming to produce a baseline policy for manipulation evaluation.</li>
-            <li>Iterating on the action-head architecture and training pipeline (in progress).</li>
+            <li>Explored MPPI baselines (Franka grasping in Newton, task planning in RoboCasa), then shifted to learned World Action Models (WAMs) built on the Interactive World Simulator (IWS).</li>
+            <li>On Push-T, benchmarked WAM variants built on frozen IWS dynamics against Diffusion Policy and a 450M SmolVLA; the best matched SmolVLA (171 vs. 172 of 250 episodes).</li>
+            <li>Scaled to RoboDojo (Isaac Sim): built an automated data-collection pipeline (11.9M frames, 31k episodes) and trained IWS from scratch on this self-collected data.</li>
+            <li>Reproduced the VPP2 baseline (14B video + 2B action) within leaderboard noise on three tasks; now training per-task WAMs (IWS → video DiT → action DiT) to compare against it.</li>
           </ul>
         </div>
       </li>
@@ -154,10 +155,10 @@
           <p class="timeline-org">Creative Machines Lab, Prof. Hod Lipson</p>
           <div class="timeline-media"><img src="assets/replicate.png" alt="Self-reproducing modular robots project"></div>
           <ul class="bullets">
-            <li>Co-developed the teleoperated control system enabling physical module collection and docking: a browser-based control terminal issues discrete motion commands over a serial link to a host microcontroller, which wirelessly broadcasts commands to modules and receives periodic heartbeat status for real-time operator guidance.</li>
-            <li>Programmed microcontroller (Arduino Nano ESP32) firmware implementing discrete motion primitives and a pre-programmed separation sequence, enabling a composite parent-offspring structure to reliably split into two independent, fully functional robots.</li>
-            <li>Engineered a low-level magnetic physics engine to overcome MuJoCo's lack of native complex magnetic support, formulating an O(N²) magnetic calculation model with non-linear distance attenuation and velocity damping that validated the docking-force parameters later adopted for the physical magnetic docking interface.</li>
-            <li>Migrated the simulation framework to MuJoCo/MJX and built a highly optimized C dynamic library bypassing the Python interpreter, achieving a 2.34x speedup per simulation step for large-scale random search and genetic algorithm evaluations.</li>
+            <li>Co-developed the control stack for a 15-module self-reproducing robot: ESP32 modules execute ESP-NOW-synchronized locomotion, module-carrying, and budding sequences across 5-module "seal" and 3-module "trilobite" morphologies.</li>
+            <li>Built a closed-loop vision system (OpenCV, ArUco) that tracks module poses and steers the robot to dock, achieving fully autonomous collection of all scattered modules in physical trials.</li>
+            <li>Engineered a custom magnetic physics engine for MuJoCo (O(N²) model with distance attenuation and damping) whose docking-force parameters were adopted for the physical docking interface.</li>
+            <li>Migrated simulation to MuJoCo/MJX and wrote a C library injecting forces directly into MuJoCo's low-level arrays, achieving a 2.34× per-step speedup for large-scale evolutionary search.</li>
           </ul>
         </div>
       </li>

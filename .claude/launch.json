@@ -5,6 +5,12 @@
       "name": "site",
       "url": "http://localhost:8743",
       "port": 8743
+    },
+    {
+      "name": "site-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8744"],
+      "port": 8744
     }
   ]
 }

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Action Models — Junyan Liu</title>
+<meta name="description" content="World Action Models for robotic manipulation built on the Interactive World Simulator — Push-T studies and the RoboDojo benchmark. Ongoing research, RoboPIL Lab, Columbia University.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="../index.html">J.L.</a>
+    <nav class="nav-links">
+      <a href="../index.html#research" class="back-link">← Back to site</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="paper-hero">
+    <p class="status-chip">Ongoing research · Jun 2026 – present</p>
+    <h1 class="paper-title">World Action Models for Robotic Manipulation</h1>
+    <p class="paper-subtitle">Turning a learned interactive world simulator into a robot policy</p>
+    <p class="paper-authors">
+      <strong>Junyan Liu</strong> &nbsp;·&nbsp; mentored by Kaifeng Zhang &nbsp;·&nbsp; advised by Prof. Yunzhu Li
+    </p>
+    <p class="paper-affiliations">RoboPIL Lab, Columbia University</p>
+    <div class="hero-links paper-links">
+      <a href="#approach">Approach</a>
+      <a href="#pusht">Push-T</a>
+      <a href="#robodojo">RoboDojo</a>
+      <a href="../assets/cv.pdf" target="_blank" rel="noopener">CV</a>
+    </div>
+  </section>
+
+  <div class="teaser">
+    <div class="video-cols" aria-hidden="true">
+      <span>Ground truth</span>
+      <span>IWS prediction, true actions</span>
+      <span>IWS prediction, another clip's actions</span>
+    </div>
+    <div class="timeline-media fit">
+      <video src="media/robodojo-iws-rollout.mp4" poster="media/robodojo-iws-rollout-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Two RoboDojo clips: real frames, the world model's prediction from the true actions, and its prediction from another clip's actions"></video>
+    </div>
+    <p class="figure-caption"><strong>Video 1.</strong> The world model I trained from scratch on RoboDojo predicts the scene ahead, open loop. With the true actions the arms follow the real motion; with another clip's actions they move somewhere else, so the predictions are driven by the actions. Slowed down.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><h2>Overview</h2></div>
+    <p>A <em>World Action Model</em> (WAM) is a robot policy built around a learned world model. This project builds WAMs on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (IWS), a latent video world model from our lab that predicts how a scene responds to robot actions. The question running through it is a practical one: <strong>when does a world model actually help a policy?</strong></p>
+    <p>I first studied this on Push-T. There I compared several ways for an action head to use IWS against a vision-language-action model trained on the same demonstrations. I then moved to the RoboDojo benchmark: I collected my own interaction data, trained IWS from scratch on it, and reproduced the VPP2 baseline. I am now training WAMs to compare against it.</p>
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-num">171<small>/250</small></span>
+        <span class="stat-label">Push-T successes for the best WAM, on par with a 450M-parameter SmolVLA (172)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">11.9M</span>
+        <span class="stat-label">frames of self-collected RoboDojo interaction data, in 31k episodes</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3<small>/3</small></span>
+        <span class="stat-label">RoboDojo tasks where the VPP2 baseline was reproduced within leaderboard noise</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach" class="section">
+    <div class="section-head"><h2>Approach</h2></div>
+    <h3>The world model</h3>
+    <p>IWS encodes each camera frame into a compact latent, predicts how that latent evolves under the robot's actions, and decodes the result back into images. It is trained on interaction data, including non-expert play, so it learns how objects respond to contact rather than how to solve one task. That makes it a natural backbone for a policy trained from only a few demonstrations.</p>
+
+    <h3>Three ways to turn it into a policy</h3>
+    <p>All three routes start from the same world model. The action heads are trained on expert demonstrations.</p>
+    <div class="pipeline" aria-hidden="true">
+      <span class="node">Camera frames</span>
+      <span class="arrow">→</span>
+      <span class="node">IWS encoder</span>
+      <span class="arrow">→</span>
+      <span class="node node-strong">IWS latent dynamics</span>
+      <span class="arrow arrow-down">↓</span>
+    </div>
+    <div class="route-grid">
+      <div class="route">
+        <span class="route-tag">A</span>
+        <h4>Read its features</h4>
+        <p>An action head reads the world model's internal features, together with the current image, and predicts a short chunk of actions.</p>
+      </div>
+      <div class="route">
+        <span class="route-tag">B</span>
+        <h4>Imagine, then act</h4>
+        <p>The world model imagines the next few frames without being given actions, and a second model infers the actions that connect them.</p>
+      </div>
+      <div class="route">
+        <span class="route-tag">C</span>
+        <h4>Video model + action model</h4>
+        <p>A separate video model predicts the future from IWS features, and an action model reads its predictions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pusht" class="section">
+    <div class="section-head"><h2>Push-T</h2></div>
+    <p>Push-T runs in MuJoCo with a Franka arm and a top-down camera, with a strict success criterion on both position and orientation of the T. Every policy learns from the same expert demonstrations and is scored on the same 250 random seeds.</p>
+    <p>The best WAM, which reads frozen IWS features (route A), succeeded on 171 of 250 episodes. That is on par with a 450M-parameter SmolVLA trained on the same demonstrations, which succeeded on 172.</p>
+
+    <div class="video-cols two" aria-hidden="true">
+      <span>Normal policy</span>
+      <span>World-model features zeroed out</span>
+    </div>
+    <div class="timeline-media fit">
+      <video src="media/pusht-feature-ablation.mp4" poster="media/pusht-feature-ablation-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Push-T episode: normal policy succeeds, the same policy with the world-model features zeroed out never touches the block"></video>
+    </div>
+    <p class="figure-caption"><strong>Video 2.</strong> A route-A policy on one Push-T episode. The normal policy completes the task; with the world-model features zeroed out, the same policy never touches the block.</p>
+
+    <h3>What Push-T taught me</h3>
+    <div class="finding-grid">
+      <div class="finding">
+        <span class="step-num">1</span>
+        <h4>The policy relies on the pretrained world model</h4>
+        <p>Removing or scrambling the world-model features breaks the policy, and the same head on an untrained world model does much worse.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">2</span>
+        <h4>Reading beats imagining</h4>
+        <p>Reading the world model's features worked better than imagining the future first and then inferring actions. Near the goal, the imagined futures were too optimistic.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">3</span>
+        <h4>A fine-tuned VLA gains little from IWS here</h4>
+        <p>A VLA that trains its own vision already captures most of what IWS adds on Push-T, so giving it IWS features did not change its success rate significantly.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">4</span>
+        <h4>Similar scores, different failures</h4>
+        <p>The WAM and the VLA tend to fail on different episodes, which points to complementary strengths rather than a shared ceiling.</p>
+      </div>
+    </div>
+    <div class="evidence-note"><strong>Takeaway.</strong> Push-T perception is too easy for a world model to add much on top of a VLA that trains its own vision. IWS should matter more with fewer demonstrations, harder perception (occlusion, many objects) or many tasks. That is why the project moved to RoboDojo.</div>
+  </section>
+
+  <section id="robodojo" class="section">
+    <div class="section-head"><h2>RoboDojo</h2></div>
+    <p>RoboDojo is a simulated dual-arm manipulation benchmark in Isaac Sim with a public leaderboard. I work on three of its precision tasks, from easy to hard. One rule shapes the pipeline: <strong>the world model is trained only on data I collected</strong>, and the expert demonstrations are reserved for the action head.</p>
+
+    <h3>Collecting interaction data</h3>
+    <p>An automated pipeline mixes scripted play, contact-free arm motion, π0.5 policy rollouts, and rollouts that scripts take over partway through. In total it collected 11.9M frames over 31k episodes.</p>
+    <div class="figure-row">
+      <div>
+        <div class="timeline-media fit"><video src="media/robodojo-play.mp4" poster="media/robodojo-play-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scripted play primitives grasping and pushing bottles"></video></div>
+        <p class="figure-caption"><strong>Video 3A.</strong> Scripted play: grasp, push and place primitives on both arms (2× speed).</p>
+      </div>
+      <div>
+        <div class="timeline-media fit"><video src="media/robodojo-pi05-rollout.mp4" poster="media/robodojo-pi05-rollout-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pi0.5 policy rollout on the xylophone task, later taken over by scripted primitives"></video></div>
+        <p class="figure-caption"><strong>Video 3B.</strong> A π0.5 policy rollout that scripted primitives take over partway through (2× speed).</p>
+      </div>
+    </div>
+
+    <h3>Training IWS from scratch</h3>
+    <p>I trained IWS from scratch on this data. A world model can look accurate while ignoring its actions, so every checkpoint is checked automatically to confirm that its predictions depend on the actions and not only on past frames (Video 1). Per-task models are now in training.</p>
+
+    <h3>Baseline: reproducing VPP2</h3>
+    <p>VPP2 is a large video-prediction policy, with a 14B-parameter video model and a 2B-parameter action model. I ran its official weights under the leaderboard protocol and reproduced its results on all three tasks within statistical noise. It is the baseline the WAMs will be compared against.</p>
+
+    <h3>Next</h3>
+    <p>I am training one WAM per task, following the staged design from Push-T (route C). A video model predicts the future from IWS features, and an action model reads those predictions together with the wrist cameras.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Project log</h2></div>
+    <ul class="timeline">
+      <li>
+        <div class="timeline-date">Jun – Jul 2026</div>
+        <div class="timeline-body">
+          <h3>Training-free baselines</h3>
+          <p>MPPI grasping with a Franka arm in the Newton simulator and MPPI planning of atomic tasks in RoboCasa. I then moved to a learning-based direction.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Aug – Sep 2026</div>
+        <div class="timeline-body">
+          <h3>First WAMs on Push-T</h3>
+          <p>Attached action heads to IWS, got the first closed-loop successes, and set up the evaluation protocol that every later comparison uses.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Oct 2026</div>
+        <div class="timeline-body">
+          <h3>Push-T comparisons</h3>
+          <p>Compared the three routes and a VLA with and without IWS, analysed where each one fails, then closed the Push-T line.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Oct 2026</div>
+        <div class="timeline-body">
+          <h3>RoboDojo data collection</h3>
+          <p>11.9M frames from scripted play, free motion, π0.5 rollouts and branched takeovers.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Oct 2026 – now</div>
+        <div class="timeline-body">
+          <h3>IWS on RoboDojo, VPP2 baseline, per-task WAMs</h3>
+          <p>Trained IWS from scratch, reproduced VPP2 on all three tasks, and started training per-task models.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section contact">
+    <div class="section-head"><h2>About this project</h2></div>
+    <p class="credit-note">Research in the RoboPIL Lab at Columbia University, advised by Prof. Yunzhu Li and mentored by PhD student Kaifeng Zhang. The world model builds on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (Wang et al., 2026). This page summarises ongoing, unpublished work. See the <a href="../index.html#research">research section</a> of the main site for my other projects.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <span id="year">2026</span> Junyan Liu.</p>
+</footer>
+
+<script src="../assets/script.js"></script>
+<script>
+  // Respect reduced motion: no autoplaying loops, give the viewer controls instead.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("video[autoplay]").forEach((v) => {
+      v.removeAttribute("autoplay");
+      v.pause();
+      v.controls = true;
+    });
+  }
+</script>
+</body>
+</html>

@@ -610,6 +610,15 @@ ul { margin: 0; padding: 0; list-style: none; }
   line-height: 1.3;
   margin: 0 0 6px;
 }
+/* A linked entry title opens its project page */
+.timeline-body h3 a { text-decoration: none; }
+.timeline-body h3 a::after {
+  content: " →";
+  display: inline-block;
+  color: var(--accent);
+  transition: transform 0.5s var(--spring);
+}
+.timeline-body h3 a:hover::after { transform: translateX(5px); }
 
 .timeline-org {
   color: var(--ink-soft);

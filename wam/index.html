@@ -63,7 +63,7 @@
   <section class="section">
     <div class="section-head"><h2>Overview</h2></div>
     <p>A <em>World Action Model</em> (WAM) is a robot policy built around a learned world model. This project builds WAMs on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (IWS), a latent video world model from our lab that predicts how a scene responds to robot actions. The question running through it is a practical one: <strong>when does a world model actually help a policy?</strong></p>
-    <p>I first studied this on Push-T. There I compared several ways for an action head to use IWS against a vision-language-action model trained on the same demonstrations. I then moved to the RoboDojo benchmark: I collected my own interaction data, trained IWS from scratch on it, and reproduced the VPP2 baseline. I am now training WAMs to compare against it.</p>
+    <p>I first studied this on Push-T, where I compared several ways for an action head to use IWS against a vision-language-action model trained on the same demonstrations. I then moved to the RoboDojo benchmark: I collected my own interaction data, trained IWS from scratch on it, and reproduced the VPP2 baseline. I have since built WAMs on RoboDojo's build_tower task and benchmarked them against VPP2 under the official protocol. On both benchmarks, precise perception of the objects turned out to matter most, so I am now feeding object states into the WAM's action head.</p>
     <div class="stat-row">
       <div class="stat">
         <span class="stat-num">171<small>/250</small></span>
@@ -152,11 +152,14 @@
       </div>
     </div>
     <div class="evidence-note"><strong>Takeaway.</strong> Push-T perception is too easy for a world model to add much on top of a VLA that trains its own vision. IWS should matter more with fewer demonstrations, harder perception (occlusion, many objects) or many tasks. That is why the project moved to RoboDojo.</div>
+
+    <h3>Follow-ups</h3>
+    <p>Two later experiments sharpened this picture. A scaled-down VPP2 (its architecture with a 1.3B video model) trained on the same demonstrations fell well short of both the WAM and the VLA. A policy that reads precise keypoint states, from a perception network trained with simulator labels, did far better than every RGB policy, so on Push-T the main bottleneck is perception. Adding gradients through a learned world model's imagined rollouts (SuperMimic-style) to that policy gave no gain over plain imitation.</p>
   </section>
 
   <section id="robodojo" class="section">
     <div class="section-head"><h2>RoboDojo</h2></div>
-    <p>RoboDojo is a simulated dual-arm manipulation benchmark in Isaac Sim with a public leaderboard. I work on three of its precision tasks, from easy to hard. One rule shapes the pipeline: <strong>the world model is trained only on data I collected</strong>, and the expert demonstrations are reserved for the action head.</p>
+    <p>RoboDojo is a simulated dual-arm manipulation benchmark in Isaac Sim with a public leaderboard. I chose three of its precision tasks, from easy to hard, and started with the easiest, build_tower, where two arms stack boards and blocks into a small tower. One rule shapes the pipeline: <strong>the world model is trained only on data I collected</strong>, and the expert demonstrations are reserved for the action head.</p>
 
     <h3>Collecting interaction data</h3>
     <p>An automated pipeline mixes scripted play, contact-free arm motion, π0.5 policy rollouts, and rollouts that scripts take over partway through. In total it collected 11.9M frames over 31k episodes.</p>
@@ -172,13 +175,24 @@
     </div>
 
     <h3>Training IWS from scratch</h3>
-    <p>I trained IWS from scratch on this data. A world model can look accurate while ignoring its actions, so every checkpoint is checked automatically to confirm that its predictions depend on the actions and not only on past frames (Video 1). Per-task models are now in training.</p>
+    <p>I trained IWS from scratch on this data. A world model can look accurate while ignoring its actions, so every checkpoint is checked automatically to confirm that its predictions depend on the actions and not only on past frames (Video 1). The final world models are trained per task, starting with build_tower.</p>
 
     <h3>Baseline: reproducing VPP2</h3>
-    <p>VPP2 is a large video-prediction policy, with a 14B-parameter video model and a 2B-parameter action model. I ran its official weights under the leaderboard protocol and reproduced its results on all three tasks within statistical noise. It is the baseline the WAMs will be compared against.</p>
+    <p>VPP2 is a large video-prediction policy, with a 14B-parameter video model and a 2B-parameter action model. I ran its official weights under the leaderboard protocol and reproduced its results on all three tasks within statistical noise. I also checked the official π0.5 weights against their leaderboard score. Both serve as reference points for the WAMs.</p>
 
-    <h3>Next</h3>
-    <p>I am training one WAM per task, following the staged design from Push-T (route C). A video model predicts the future from IWS features, and an action model reads those predictions together with the wrist cameras.</p>
+    <h3>WAMs on build_tower</h3>
+    <p>I built two kinds of WAM on the build_tower world model: the staged video model + action model design (route C), and an action head that reads the frozen IWS features directly (route A). As on Push-T, route A came out ahead in my tests. Its action head is a diffusion transformer trained with flow matching on the expert demonstrations; it also reads both wrist cameras and the arm state, and outputs end-effector poses for both arms. The main checkpoints are evaluated under the official leaderboard protocol, and every episode is traced stage by stage in the simulator, so each lost point can be tied to a specific grasp or placement.</p>
+    <div class="timeline-media fit">
+      <video src="media/robodojo-wam-build-tower.mp4" poster="media/robodojo-wam-build-tower-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A route-A WAM builds the full tower on build_tower and returns both arms to the start pose"></video>
+    </div>
+    <p class="figure-caption"><strong>Video 4.</strong> One episode in which the route-A WAM builds the full tower on an official evaluation layout and returns both arms to their start pose, seen from the head camera (2× speed).</p>
+
+    <h3>Now: object states</h3>
+    <p>The traces pointed to object localisation as the main limit. A policy that reads object states from a block detector (trained with simulator labels) did much better than the RGB-only WAM, so I am now feeding those object states into the WAM's action head alongside the IWS features.</p>
+    <div class="timeline-media fit">
+      <img src="media/robodojo-block-detector.jpg" alt="Block detector output on a build_tower demonstration: each board and block is marked with its estimated 3D pose">
+    </div>
+    <p class="figure-caption"><strong>Figure 1.</strong> The block detector on an expert demonstration. Each board and block gets an estimated 3D pose (drawn as a box), which becomes one object state for the policy.</p>
   </section>
 
   <section class="section">
@@ -202,7 +216,7 @@
         <div class="timeline-date">Oct 2026</div>
         <div class="timeline-body">
           <h3>Push-T comparisons</h3>
-          <p>Compared the three routes and a VLA with and without IWS, analysed where each one fails, then closed the Push-T line.</p>
+          <p>Compared the three routes and a VLA with and without IWS, and analysed where each one fails.</p>
         </div>
       </li>
       <li>
@@ -213,10 +227,31 @@
         </div>
       </li>
       <li>
-        <div class="timeline-date">Oct 2026 – now</div>
+        <div class="timeline-date">Oct 2026</div>
         <div class="timeline-body">
-          <h3>IWS on RoboDojo, VPP2 baseline, per-task WAMs</h3>
-          <p>Trained IWS from scratch, reproduced VPP2 on all three tasks, and started training per-task models.</p>
+          <h3>IWS on RoboDojo, VPP2 baseline</h3>
+          <p>Trained IWS from scratch, then per-task models, and reproduced VPP2 on all three tasks.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Oct – Nov 2026</div>
+        <div class="timeline-body">
+          <h3>WAMs on build_tower</h3>
+          <p>Built route-A and route-C WAMs, benchmarked them against VPP2 and π0.5, and traced every failure stage by stage.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Nov 2026</div>
+        <div class="timeline-body">
+          <h3>Push-T follow-ups</h3>
+          <p>Added a scaled-down VPP2 baseline and a keypoint-state study, which showed that perception is the main bottleneck.</p>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Nov 2026 – now</div>
+        <div class="timeline-body">
+          <h3>Object states for the WAM</h3>
+          <p>Detector-based object states on build_tower, now fed into the WAM's action head.</p>
         </div>
       </li>
     </ul>

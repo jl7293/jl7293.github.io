@@ -63,7 +63,7 @@
             robotic manipulation, and in Prof. Hod Lipson's
             Creative Machines Lab, working on the control systems and
             simulation infrastructure for self-reproducing modular robots —
-            research currently under review at the IROS 2026 Workshop. I
+            research presented at two IROS 2026 workshops. I
             also serve as a Teaching Assistant for Mechatronics &amp;
             Embedded Micro at Columbia, and have built robots including a
             quadruped platform ("Pack-Pack") and a computer-vision tracking
@@ -118,7 +118,7 @@
       <h2>Honors &amp; Awards</h2>
     </div>
     <ul class="interest-list">
-      <li>Winner, Best Use of Computer Vision — MakeCU 2025 Hackathon (Columbia Robotics Club), Nov 2025</li>
+      <li>Winner, Best Use of Computer Vision — MakeCU 2025 Hackathon, Columbia University, Nov 2025. Selected from 19 projects by 115 registered participants at Columbia's flagship 24-hour hardware hackathon.</li>
     </ul>
   </section>
 
@@ -128,9 +128,9 @@
     </div>
     <p class="research-intro">
       My interests sit at the intersection of mechanical design, control, and
-      simulation — currently focused on learning-based control for
-      manipulation and locomotion, and on the mechanics and control systems
-      that let physical robots build and reconfigure themselves. Below is my
+      simulation — currently focused on world models and learning-based
+      control for robotic manipulation, and on physical self-reproducing and
+      self-reconfiguring modular robots. Below is my
       current work at Columbia; earlier research is in my CV.
     </p>
     <ul class="timeline">
@@ -139,12 +139,12 @@
         <div class="timeline-body">
           <h3><a href="wam/">World Action Model for Robotic Manipulation</a></h3>
           <p class="timeline-org">RoboPIL Lab, Prof. Yunzhu Li (mentored by PhD student Kaifeng Zhang)</p>
-          <div class="timeline-media"><img src="assets/wam.png" alt="World Action Model project"></div>
+          <div class="timeline-media"><img src="assets/wam.png" alt="A World Action Model building a tower on the RoboDojo build_tower task"></div>
           <ul class="bullets">
-            <li>Explored MPPI baselines (Franka grasping in Newton, task planning in RoboCasa), then shifted to learned World Action Models (WAMs) built on the Interactive World Simulator (IWS).</li>
-            <li>On Push-T, benchmarked WAM variants built on frozen IWS dynamics against Diffusion Policy and a 450M SmolVLA; the best matched SmolVLA (171 vs. 172 of 250 episodes).</li>
-            <li>Scaled to RoboDojo (Isaac Sim): built an automated data-collection pipeline (11.9M frames, 31k episodes) and trained IWS from scratch on this self-collected data.</li>
-            <li>Reproduced the VPP2 baseline (14B video + 2B action) within leaderboard noise on three tasks; now training per-task WAMs (IWS → video DiT → action DiT) to compare against it.</li>
+            <li>Independently carry out this project end to end: moved from MPPI baselines (Franka grasping in Newton, task planning in RoboCasa) to learned World Action Models (WAMs) built on the Interactive World Simulator (IWS).</li>
+            <li>On Push-T, benchmarked WAM variants on frozen IWS dynamics against Diffusion Policy, a 450M SmolVLA, and a scaled-down VPP2; the best matched SmolVLA (171 vs. 172 of 250 episodes), and a keypoint-state study showed that perception is the main bottleneck.</li>
+            <li>On RoboDojo (Isaac Sim), built an automated data-collection pipeline (11.9M frames, 31k episodes) and trained IWS from scratch on this data.</li>
+            <li>Reproduced VPP2 (14B video + 2B action) within leaderboard noise on three tasks; built a WAM with a DiT flow-matching head on frozen IWS features and benchmarked it against VPP2 on build_tower; now adding object-state inputs.</li>
           </ul>
         </div>
       </li>
@@ -155,15 +155,16 @@
           <p class="timeline-org">Creative Machines Lab, Prof. Hod Lipson</p>
           <div class="timeline-media"><img src="assets/replicate.png" alt="Self-reproducing modular robots project"></div>
           <ul class="bullets">
-            <li>Co-developed the control stack for a 15-module self-reproducing robot: ESP32 modules execute ESP-NOW-synchronized locomotion, module-carrying, and budding sequences across 5-module "seal" and 3-module "trilobite" morphologies.</li>
-            <li>Built a closed-loop vision system (OpenCV, ArUco) that tracks module poses and steers the robot to dock, achieving fully autonomous collection of all scattered modules in physical trials.</li>
+            <li>Co-developed the ESP32/ESP-NOW control stack for a 15-module self-reproducing robot, synchronizing modules across 5-module "seal" and 3-module "trilobite" morphologies.</li>
+            <li>Independently designed its locomotion, module-carrying, and budding sequences and its manual-control interface.</li>
+            <li>Independently built a closed-loop vision system (OpenCV, ArUco) that steers the robot to dock, achieving fully autonomous collection of all scattered modules in physical trials.</li>
             <li>Engineered a custom magnetic physics engine for MuJoCo (O(N²) model with distance attenuation and damping) whose docking-force parameters were adopted for the physical docking interface.</li>
             <li>Migrated simulation to MuJoCo/MJX and wrote a C library injecting forces directly into MuJoCo's low-level arrays, achieving a 2.34× per-step speedup for large-scale evolutionary search.</li>
           </ul>
         </div>
       </li>
     </ul>
-    <p class="section-note">Earlier research (2023–2025) on magnetic simulation and reinforcement learning is in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
+    <p class="section-note">Earlier research (2024–2025) on magnetic simulation and reinforcement learning is in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
   </section>
 
   <section id="experience" class="section">
@@ -172,12 +173,13 @@
     </div>
     <ul class="timeline">
       <li>
-        <div class="timeline-date">Sep 2026–Present</div>
+        <div class="timeline-date">Fall 2026</div>
         <div class="timeline-body">
           <h3>Teaching Assistant — MECE4058E: Mechatronics &amp; Embedded Micro</h3>
           <p class="timeline-org">Columbia University (Instructor: Enrico Zordan)</p>
           <ul class="bullets">
-            <li>Help students complete lab exercises in embedded microcontroller programming (Assembly/C) and mechatronic systems (solenoids, stepper/DC motors, thermal systems, magnetic levitation), and grade lab results.</li>
+            <li>Mentor 40 students in 7 teams through weekly labs and office hours; grade lab work.</li>
+            <li>Help students debug embedded microcontroller code (Assembly/C) and mechatronic hardware (solenoids, stepper/DC motors, thermal systems, magnetic levitation).</li>
           </ul>
         </div>
       </li>
@@ -199,10 +201,9 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/U7pcNMoIfwk?si=V1PAWZDfMzL-CAm7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <ul class="bullets">
-            <li>Designed and built a custom quadruped robot from concept sketches to physical deployment, covering mechanical design, simulation, and control end-to-end.</li>
-            <li>Engineered the mechanical structure in SolidWorks and assembled the physical prototype with a Raspberry Pi core controller and 8 servo motors (2 DOF per leg).</li>
-            <li>Built a high-fidelity MuJoCo physics simulation to design, test, and evaluate locomotion strategies, implementing preset gaits, Random Search, Hill Climbing, and reinforcement learning.</li>
-            <li>Achieved sim-to-real transfer of heuristic search algorithms, deploying locomotion policies onto physical hardware for a stable real-world walking speed of 26.47 cm/s.</li>
+            <li>Designed and built a custom quadruped from concept sketches to physical deployment, using SolidWorks for 3D CAD and a Raspberry Pi controller driving 8 servo motors (2 DOF per leg).</li>
+            <li>Built a MuJoCo simulation to evaluate preset gaits, Random Search, Hill Climbing, and Reinforcement Learning (RL), comparing models optimized for maximum speed and gait stability.</li>
+            <li>Achieved sim-to-real transfer of policies optimized via Random Search and Hill Climbing, deploying them on the physical hardware to reach a stable walking speed of 26.47 cm/s.</li>
           </ul>
         </div>
       </li>
@@ -215,15 +216,16 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/vSIey4-xD3o?si=7DMo9X7D1ZcZDnYi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <ul class="bullets">
-            <li>Built an autonomous mobile robot, pivoting from a two-wheel self-balancing design to a three-wheel, camera-guided tracking robot after balance tuning proved infeasible in time.</li>
-            <li>Implemented real-time ArUco marker detection and tracking on a Raspberry Pi with OpenCV, computing steering corrections from the marker's pixel offset to drive bus-servo-actuated wheels.</li>
-            <li>Integrated ultrasonic obstacle avoidance and diagnosed hardware failures under time pressure — burned-out motors, slipping wheels, insufficient battery current.</li>
+            <li>Built a camera-guided mobile robot with a 4-person team in 24 hours, pivoting from a two-wheel self-balancing design (PID control via MPU6050 IMU) to three wheels when balance tuning proved infeasible.</li>
+            <li>Implemented real-time ArUco tracking on a Raspberry Pi (OpenCV), computing proportional steering corrections from the marker's pixel offset to drive LX-16A bus-servo wheels toward the target.</li>
+            <li>Integrated an HC-SR04 ultrasonic sensor for obstacle avoidance and an LED status indicator, halting the robot when an obstacle was detected or the target was lost.</li>
+            <li>Diagnosed and fixed hardware failures under time pressure: burned-out motors, slipping wheels, and insufficient battery current (upgraded from 9V to 12V with a DC-DC converter).</li>
             <li>Won Best Use of Computer Vision at the hackathon.</li>
           </ul>
         </div>
       </li>
     </ul>
-    <p class="section-note">Earlier projects (2021–2024), including a surgical planning system and a smart car challenge, are in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
+    <p class="section-note">Earlier projects (2023–2024), including a surgical planning system and a smart car challenge, are in my <a href="assets/cv.pdf" target="_blank" rel="noopener">full CV</a>.</p>
   </section>
 
   <section id="publications" class="section">
@@ -234,7 +236,8 @@
       <li>
         <p class="pub-title"><a href="replicate/">Robotic Budding: From Homogeneous Cells to Diverse Morphologies in Physical Self-Reproduction</a></p>
         <p class="pub-meta">S. Zhang*, <strong>J. Liu*</strong>, W. He*, H. Lipson.</p>
-        <p class="pub-meta">*Equal contribution.  Selected for a 5-minute lightning talk at the Reconfigurable Modular Robots workshop.</p>
+        <p class="pub-meta"><a href="https://arxiv.org/abs/2610.31929" target="_blank" rel="noopener">arXiv:2610.31929</a>, 2026. Poster presented at two IROS 2026 workshops, Pittsburgh, PA, USA; 5-minute lightning talk at the Reconfigurable Modular Robots workshop.</p>
+        <p class="pub-meta">*Equal contribution.</p>
       </li>
     </ul>
   </section>
@@ -244,9 +247,10 @@
       <h2>Skills</h2>
     </div>
     <ul class="skill-list">
+      <li><span class="skill-label">Robotics &amp; simulation:</span> MuJoCo/MJX, Isaac Sim, Newton, RoboCasa, OpenCV/ArUco</li>
+      <li><span class="skill-label">Machine learning:</span> PyTorch, JAX, World Models, Diffusion Policy/DiT, Reinforcement Learning, U-Net</li>
       <li><span class="skill-label">Programming &amp; embedded systems:</span> C/C++, Python, MATLAB, Arduino (ESP32), STM32</li>
-      <li><span class="skill-label">Robotics, simulation &amp; ML:</span> MuJoCo/MJX, Deep Learning (U-Net)</li>
-      <li><span class="skill-label">Design &amp; analysis:</span> SolidWorks, AutoCAD, Inventor, Photoshop, ANSYS Workbench, ANSYS Maxwell</li>
+      <li><span class="skill-label">Design &amp; analysis:</span> SolidWorks, AutoCAD, Photoshop, ANSYS Workbench, ANSYS Maxwell</li>
       <li><span class="skill-label">Tools &amp; OS:</span> Linux/Ubuntu, Git</li>
     </ul>
   </section>

@@ -932,6 +932,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .portrait { width: 120px; border-radius: 24px; }
 }
 
+/* Seven nav links only just fit above the mobile breakpoint */
+@media (min-width: 761px) and (max-width: 900px) {
+  .nav-inner { gap: 6px; }
+  .nav-links a { padding: 7px 9px; }
+}
+
 @media (max-width: 760px) {
   :root { --gutter: 20px; }
 

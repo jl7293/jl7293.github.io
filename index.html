@@ -59,12 +59,12 @@
             analysis, and control theory first drew me toward robotics.
           </p>
           <p>
-            I currently conduct research in Prof.
-            Yunzhu Li's RoboPIL Lab, developing World Action Models for
-            robotic manipulation, and in Prof. Hod Lipson's
+            I currently conduct research in Prof. Hod Lipson's
             Creative Machines Lab, working on the control systems and
             simulation infrastructure for self-reproducing modular robots —
-            research presented at two IROS 2026 workshops. I
+            research presented at two IROS 2026 workshops. In Prof.
+            Yunzhu Li's RoboPIL Lab, I built lightweight World Action Models
+            for robotic manipulation (June–November 2026). I
             also serve as a Teaching Assistant for Mechatronics &amp;
             Embedded Micro at Columbia, and have built robots including a
             quadruped platform ("Pack-Pack") and a computer-vision tracking
@@ -137,23 +137,9 @@
       simulation — currently focused on world models and learning-based
       control for robotic manipulation, and on physical self-reproducing and
       self-reconfiguring modular robots. Below is my
-      current work at Columbia; earlier research is in my CV.
+      research at Columbia; earlier research is in my CV.
     </p>
     <ul class="timeline">
-      <li>
-        <div class="timeline-date">Jun 2026–Present</div>
-        <div class="timeline-body">
-          <h3><a href="wam/">World Action Model for Robotic Manipulation</a></h3>
-          <p class="timeline-org">RoboPIL Lab, Prof. Yunzhu Li (mentored by PhD student Kaifeng Zhang)</p>
-          <div class="timeline-media"><img src="assets/wam.png" alt="A World Action Model building a tower on the RoboDojo build_tower task"></div>
-          <ul class="bullets">
-            <li>Independently carry out this project end to end: moved from MPPI baselines (Franka grasping in Newton, task planning in RoboCasa) to learned World Action Models (WAMs) built on the Interactive World Simulator (IWS).</li>
-            <li>On Push-T, benchmarked WAM variants on frozen IWS dynamics against Diffusion Policy, a 450M SmolVLA, and a scaled-down VPP2; the best matched SmolVLA (171 vs. 172 of 250 episodes), and a keypoint-state study showed that perception is the main bottleneck.</li>
-            <li>On RoboDojo (Isaac Sim), built an automated data-collection pipeline (11.9M frames, 31k episodes) and trained IWS from scratch on this data.</li>
-            <li>Reproduced VPP2 (14B video + 2B action) within leaderboard noise on three tasks; built a WAM with a DiT flow-matching head on frozen IWS features and benchmarked it against VPP2 on build_tower; now adding object-state inputs.</li>
-          </ul>
-        </div>
-      </li>
       <li>
         <div class="timeline-date">Feb 2026–Present</div>
         <div class="timeline-body">
@@ -166,6 +152,20 @@
             <li>Independently built a closed-loop vision system (OpenCV, ArUco) that steers the robot to dock, achieving fully autonomous collection of all scattered modules in physical trials.</li>
             <li>Engineered a custom magnetic physics engine for MuJoCo (O(N²) model with distance attenuation and damping) whose docking-force parameters were adopted for the physical docking interface.</li>
             <li>Migrated simulation to MuJoCo/MJX and wrote a C library injecting forces directly into MuJoCo's low-level arrays, achieving a 2.34× per-step speedup for large-scale evolutionary search.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="timeline-date">Jun 2026–Nov 2026</div>
+        <div class="timeline-body">
+          <h3><a href="wam/">Lightweight World Action Models for Robotic Manipulation</a></h3>
+          <p class="timeline-org">RoboPIL Lab, Prof. Yunzhu Li (mentored by PhD student Kaifeng Zhang)</p>
+          <div class="timeline-media"><img src="assets/wam.png" alt="A World Action Model building a tower on the RoboDojo build_tower task"></div>
+          <ul class="bullets">
+            <li>Independently carried out this project end to end, moving from MPPI baselines (Franka grasping in Newton, task planning in RoboCasa) to learned World Action Models (WAMs) built on the Interactive World Simulator (IWS).</li>
+            <li>On Push-T, benchmarked WAMs on frozen IWS dynamics against Diffusion Policy, a 450M SmolVLA, and a scaled-down VPP2; the best matched SmolVLA (171 vs. 172 of 250 episodes); perception was the main bottleneck.</li>
+            <li>On RoboDojo (Isaac Sim), collected 11.9M frames (31k episodes) of interaction data, trained IWS from scratch on it, and reproduced VPP2 (14B video + 2B action) within leaderboard noise on three tasks.</li>
+            <li>Built a lightweight WAM (a DiT flow-matching head on frozen IWS features) about half the size of SmolVLA; trained only on build_tower, it beat the single-task SmolVLA (12.0% vs. 0.7% success) but trails larger π0.5 and VPP2.</li>
           </ul>
         </div>
       </li>

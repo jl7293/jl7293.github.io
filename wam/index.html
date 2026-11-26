@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Action Models — Junyan Liu</title>
-<meta name="description" content="World Action Models for robotic manipulation built on the Interactive World Simulator — Push-T studies and the RoboDojo benchmark. Ongoing research, RoboPIL Lab, Columbia University.">
+<title>Lightweight World Action Models — Junyan Liu</title>
+<meta name="description" content="Lightweight World Action Models for robotic manipulation built on the Interactive World Simulator — Push-T studies and the RoboDojo benchmark. Research project (Jun – Nov 2026), RoboPIL Lab, Columbia University.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +33,9 @@
 <main id="main">
 
   <section class="paper-hero">
-    <p class="status-chip">Ongoing research · Jun 2026 – present</p>
-    <h1 class="paper-title">World Action Models for Robotic Manipulation</h1>
-    <p class="paper-subtitle">Turning a learned interactive world simulator into a robot policy</p>
+    <p class="status-chip">Research project · Jun – Nov 2026 · on hold</p>
+    <h1 class="paper-title">Lightweight World Action Models for Robotic Manipulation</h1>
+    <p class="paper-subtitle">Turning a learned interactive world simulator into a compact robot policy</p>
     <p class="paper-authors">
       <strong>Junyan Liu</strong> &nbsp;·&nbsp; mentored by Kaifeng Zhang &nbsp;·&nbsp; advised by Prof. Yunzhu Li
     </p>
@@ -44,6 +44,7 @@
       <a href="#approach">Approach</a>
       <a href="#pusht">Push-T</a>
       <a href="#robodojo">RoboDojo</a>
+      <a href="#conclusions">Conclusions</a>
       <a href="../assets/cv.pdf" target="_blank" rel="noopener">CV</a>
     </div>
   </section>
@@ -63,7 +64,7 @@
   <section class="section">
     <div class="section-head"><h2>Overview</h2></div>
     <p>A <em>World Action Model</em> (WAM) is a robot policy built around a learned world model. This project builds WAMs on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (IWS), a latent video world model from our lab that predicts how a scene responds to robot actions. The question running through it is a practical one: <strong>when does a world model actually help a policy?</strong></p>
-    <p>I first studied this on Push-T, where I compared several ways for an action head to use IWS against a vision-language-action model trained on the same demonstrations. I then moved to the RoboDojo benchmark: I collected my own interaction data, trained IWS from scratch on it, and reproduced the VPP2 baseline. I have since built WAMs on RoboDojo's build_tower task and benchmarked them against VPP2 under the official protocol. On both benchmarks, precise perception of the objects turned out to matter most, so I am now feeding object states into the WAM's action head.</p>
+    <p>I first studied this on Push-T, where I compared several ways for an action head to use IWS against a vision-language-action model trained on the same demonstrations. I then moved to the RoboDojo benchmark: I collected my own interaction data, trained IWS from scratch on it, and reproduced the VPP2 baseline. I then built lightweight WAMs on RoboDojo's build_tower task and benchmarked them against VPP2 under the official protocol. On both benchmarks, precise perception of the objects turned out to matter more than anything the world model added. The project has been on hold since November 2026; the conclusions are summarised below.</p>
     <div class="stat-row">
       <div class="stat">
         <span class="stat-num">171<small>/250</small></span>
@@ -159,18 +160,18 @@
 
   <section id="robodojo" class="section">
     <div class="section-head"><h2>RoboDojo</h2></div>
-    <p>RoboDojo is a simulated dual-arm manipulation benchmark in Isaac Sim with a public leaderboard. I chose three of its precision tasks, from easy to hard, and started with the easiest, build_tower, where two arms stack boards and blocks into a small tower. One rule shapes the pipeline: <strong>the world model is trained only on data I collected</strong>, and the expert demonstrations are reserved for the action head.</p>
+    <p>RoboDojo is a simulated dual-arm manipulation benchmark in Isaac Sim with a public leaderboard. I chose three of its precision tasks, from easy to hard, and started with the easiest, build_tower, where two arms stack boards and blocks into a small tower. One rule shapes the approach: <strong>the world model is trained only on data I collected</strong>, and the expert demonstrations are reserved for the action head.</p>
 
     <h3>Collecting interaction data</h3>
-    <p>An automated pipeline mixes scripted play, contact-free arm motion, π0.5 policy rollouts, and rollouts that scripts take over partway through. In total it collected 11.9M frames over 31k episodes.</p>
+    <p>I collected 11.9M frames of interaction data over 31k episodes to train the world model.</p>
     <div class="figure-row">
       <div>
-        <div class="timeline-media fit"><video src="media/robodojo-play.mp4" poster="media/robodojo-play-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scripted play primitives grasping and pushing bottles"></video></div>
-        <p class="figure-caption"><strong>Video 3A.</strong> Scripted play: grasp, push and place primitives on both arms (2× speed).</p>
+        <div class="timeline-media fit"><video src="media/robodojo-play.mp4" poster="media/robodojo-play-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Both arms grasping and pushing bottles"></video></div>
+        <p class="figure-caption"><strong>Video 3A.</strong> An example of the collected interaction data (2× speed).</p>
       </div>
       <div>
-        <div class="timeline-media fit"><video src="media/robodojo-pi05-rollout.mp4" poster="media/robodojo-pi05-rollout-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A pi0.5 policy rollout on the xylophone task, later taken over by scripted primitives"></video></div>
-        <p class="figure-caption"><strong>Video 3B.</strong> A π0.5 policy rollout that scripted primitives take over partway through (2× speed).</p>
+        <div class="timeline-media fit"><video src="media/robodojo-pi05-rollout.mp4" poster="media/robodojo-pi05-rollout-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A collected episode on the xylophone task"></video></div>
+        <p class="figure-caption"><strong>Video 3B.</strong> Another collected episode (2× speed).</p>
       </div>
     </div>
 
@@ -182,17 +183,46 @@
 
     <h3>WAMs on build_tower</h3>
     <p>I built two kinds of WAM on the build_tower world model: the staged video model + action model design (route C), and an action head that reads the frozen IWS features directly (route A). As on Push-T, route A came out ahead in my tests. Its action head is a diffusion transformer trained with flow matching on the expert demonstrations; it also reads both wrist cameras and the arm state, and outputs end-effector poses for both arms. The main checkpoints are evaluated under the official leaderboard protocol, and every episode is traced stage by stage in the simulator, so each lost point can be tied to a specific grasp or placement.</p>
+    <p>This WAM is lightweight: about half the size of SmolVLA. Trained on build_tower alone, with its world model trained only on self-collected interaction data, it succeeded far more often than the benchmark's single-task SmolVLA under the official protocol (12.0% vs. 0.7%). Larger pretrained models remain well ahead, from π0.5 (3.3B) to VPP2 (16B).</p>
     <div class="timeline-media fit">
       <video src="media/robodojo-wam-build-tower.mp4" poster="media/robodojo-wam-build-tower-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="A route-A WAM builds the full tower on build_tower and returns both arms to the start pose"></video>
     </div>
     <p class="figure-caption"><strong>Video 4.</strong> One episode in which the route-A WAM builds the full tower on an official evaluation layout and returns both arms to their start pose, seen from the head camera (2× speed).</p>
 
-    <h3>Now: object states</h3>
-    <p>The traces pointed to object localisation as the main limit. A policy that reads object states from a block detector (trained with simulator labels) did much better than the RGB-only WAM, so I am now feeding those object states into the WAM's action head alongside the IWS features.</p>
+    <h3>Object states</h3>
+    <p>The traces pointed to object localisation as the main limit. I trained a block detector with simulator labels and fed its object states into the WAM's action head alongside the IWS features. This gave the largest gain of any change I made on build_tower, and a small policy that reads only the object states and arm state, without IWS, did about as well.</p>
     <div class="timeline-media fit">
       <img src="media/robodojo-block-detector.jpg" alt="Block detector output on a build_tower demonstration: each board and block is marked with its estimated 3D pose">
     </div>
     <p class="figure-caption"><strong>Figure 1.</strong> The block detector on an expert demonstration. Each board and block gets an estimated 3D pose (drawn as a box), which becomes one object state for the policy.</p>
+  </section>
+
+  <section id="conclusions" class="section">
+    <div class="section-head"><h2>Conclusions</h2></div>
+    <p>The project is on hold as of November 2026. Push-T and RoboDojo gave the same answer to its question.</p>
+    <div class="finding-grid">
+      <div class="finding">
+        <span class="step-num">1</span>
+        <h4>The policy does use the world model</h4>
+        <p>Removing or scrambling the IWS features breaks the policy, so the action head relies on what the world model has learned.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">2</span>
+        <h4>Reading beats imagining</h4>
+        <p>An action head that reads frozen IWS features did better than routes that first imagine the future and then infer actions: clearly on Push-T, and in my tests on RoboDojo.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">3</span>
+        <h4>Perception is the bottleneck</h4>
+        <p>The remaining failures came from locating objects precisely, not from predicting how the scene moves. Object states from a perception network gave the largest gains on both benchmarks, and policies reading them did well even without IWS.</p>
+      </div>
+      <div class="finding">
+        <span class="step-num">4</span>
+        <h4>Lightweight WAMs beat same-size baselines, not large models</h4>
+        <p>On Push-T the best WAM matched a 450M VLA. On build_tower, a single-task WAM about half the size of SmolVLA beat the single-task SmolVLA, but larger pretrained models such as π0.5 and VPP2 stayed well ahead.</p>
+      </div>
+    </div>
+    <div class="evidence-note"><strong>Takeaway.</strong> A world model trained on self-collected interaction data gives a policy useful features, but in these tasks it did not replace precise perception of the objects. The next step I would take is to make object-level state part of the world model itself, and to test it where perception is hard, demonstrations are few, or many tasks share one model.</div>
   </section>
 
   <section class="section">
@@ -223,7 +253,7 @@
         <div class="timeline-date">Oct 2026</div>
         <div class="timeline-body">
           <h3>RoboDojo data collection</h3>
-          <p>11.9M frames from scripted play, free motion, π0.5 rollouts and branched takeovers.</p>
+          <p>Collected 11.9M frames of interaction data in 31k episodes.</p>
         </div>
       </li>
       <li>
@@ -248,10 +278,10 @@
         </div>
       </li>
       <li>
-        <div class="timeline-date">Nov 2026 – now</div>
+        <div class="timeline-date">Nov 2026</div>
         <div class="timeline-body">
-          <h3>Object states for the WAM</h3>
-          <p>Detector-based object states on build_tower, now fed into the WAM's action head.</p>
+          <h3>Object states, then pause</h3>
+          <p>Fed detector-based object states into the WAM's action head on build_tower. The project was put on hold at the end of November.</p>
         </div>
       </li>
     </ul>
@@ -259,7 +289,7 @@
 
   <section class="section contact">
     <div class="section-head"><h2>About this project</h2></div>
-    <p class="credit-note">Research in the RoboPIL Lab at Columbia University, advised by Prof. Yunzhu Li and mentored by PhD student Kaifeng Zhang. The world model builds on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (Wang et al., 2026). This page summarises ongoing, unpublished work. See the <a href="../index.html#research">research section</a> of the main site for my other projects.</p>
+    <p class="credit-note">Research in the RoboPIL Lab at Columbia University, advised by Prof. Yunzhu Li and mentored by PhD student Kaifeng Zhang. The world model builds on the <a href="https://arxiv.org/abs/2603.08546" target="_blank" rel="noopener">Interactive World Simulator</a> (Wang et al., 2026). This page summarises unpublished work, on hold since November 2026. See the <a href="../index.html#research">research section</a> of the main site for my other projects.</p>
   </section>
 
 </main>
